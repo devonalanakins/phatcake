@@ -27,7 +27,7 @@ fn mixes_four_simultaneous_decks() {
     let mut cue = [0.0; 8];
     engine.render_into(&mut master, &mut cue).unwrap();
     let expected = 1.0 * std::f32::consts::FRAC_1_SQRT_2;
-    for frame in master.chunks_exact(2) {
+    for frame in master.as_chunks::<2>().0.iter() {
         near(frame[0], expected);
         near(frame[1], expected);
     }
@@ -79,7 +79,7 @@ fn loops_wrap_and_remain_bounded() {
     let mut master = [0.0; 8];
     let mut cue = [0.0; 8];
     engine.render_into(&mut master, &mut cue).unwrap();
-    for (frame, expected) in master.chunks_exact(2).zip([0.2, 0.3, 0.2, 0.3]) {
+    for (frame, expected) in master.as_chunks::<2>().0.iter().zip([0.2, 0.3, 0.2, 0.3]) {
         near(frame[0], expected);
     }
 }
@@ -96,7 +96,7 @@ fn reverse_and_fractional_scrubbing_work_offline() {
     let mut master = [0.0; 8];
     let mut cue = [0.0; 8];
     engine.render_into(&mut master, &mut cue).unwrap();
-    for (frame, expected) in master.chunks_exact(2).zip([0.3, 0.2, 0.1, 0.0]) {
+    for (frame, expected) in master.as_chunks::<2>().0.iter().zip([0.3, 0.2, 0.1, 0.0]) {
         near(frame[0], expected);
     }
     let deck = engine.deck_mut(0).unwrap();

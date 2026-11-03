@@ -269,14 +269,14 @@ impl Engine {
     /// even lengths. A safety clamp prevents out-of-range output, but is NOT
     /// a professional-grade limiter.
     pub fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError> {
-        if master.len() != cue.len() || master.len() % 2 != 0 {
+        if master.len() != cue.len() || !master.len().is_multiple_of(2) {
             return Err(EngineError::InvalidOutputBuffers);
         }
 
         let left_bus = (0.5 * (1.0 - self.crossfader)).sqrt();
         let right_bus = (0.5 * (1.0 + self.crossfader)).sqrt();
 
-        for (master_frame, cue_frame) in master.chunks_exact_mut(2).zip(cue.chunks_exact_mut(2)) {
+        for (master_frame, cue_frame) in master.as_chunks_mut::<2>().0.iter_mut().zip(cue.as_chunks_mut::<2>().0.iter_mut()) {
             let mut master_left = 0.0_f32;
             let mut master_right = 0.0_f32;
             let mut cue_left = 0.0_f32;

@@ -112,7 +112,6 @@ fn invalid_sample_rate_does_not_allocate_test_sources() {
     assert!(prepare_demo_engine(0).is_err());
 }
 
-
 #[test]
 fn device_adapter_applies_timed_control_to_interleaved_audio() {
     let engine = constant_engine(0.25, true);

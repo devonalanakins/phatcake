@@ -95,7 +95,10 @@ fn run() -> Result<(), Box<dyn Error>> {
     let stream = device.build_output_stream(
         config,
         move |samples: &mut [f32], _: &cpal::OutputCallbackInfo| {
-            if scratch.render(&mut controlled_engine, samples, channels).is_err() {
+            if scratch
+                .render(&mut controlled_engine, samples, channels)
+                .is_err()
+            {
                 callback_metrics
                     .render_errors
                     .fetch_add(1, Ordering::Relaxed);

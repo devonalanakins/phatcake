@@ -17,7 +17,12 @@ fn render_samples(player: &mut phatcake_control::ControlledEngine, frames: usize
     let mut master = vec![0.0_f32; frames * 2];
     let mut cue = vec![0.0_f32; frames * 2];
     player.render_into(&mut master, &mut cue).unwrap();
-    master.as_chunks::<2>().0.iter().map(|frame| frame[0]).collect()
+    master
+        .as_chunks::<2>()
+        .0
+        .iter()
+        .map(|frame| frame[0])
+        .collect()
 }
 
 fn close(actual: f32, expected: f32) {

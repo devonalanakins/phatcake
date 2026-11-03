@@ -13,7 +13,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
 use phatcake_engine::{Deck, Engine, EngineError, StereoRenderer};
-use rtrb::{Consumer, PopError, Producer, PushError, RingBuffer};
+use rtrb::{Consumer, Producer, PushError, RingBuffer};
 
 /// Maximum events placed into the ring before the sender gets backpressure.
 pub const COMMAND_CAPACITY: usize = 1024;
@@ -50,11 +50,27 @@ pub enum ControlChange {
     Play(DeckId),
     Pause(DeckId),
     Stop(DeckId),
-    Seek { deck: DeckId, position: f64 },
-    SetRate { deck: DeckId, rate: f64 },
-    SetGain { deck: DeckId, gain: f32 },
-    SetCue { deck: DeckId, enabled: bool },
-    SetLoop { deck: DeckId, start: usize, end: usize },
+    Seek {
+        deck: DeckId,
+        position: f64,
+    },
+    SetRate {
+        deck: DeckId,
+        rate: f64,
+    },
+    SetGain {
+        deck: DeckId,
+        gain: f32,
+    },
+    SetCue {
+        deck: DeckId,
+        enabled: bool,
+    },
+    SetLoop {
+        deck: DeckId,
+        start: usize,
+        end: usize,
+    },
     ClearLoop(DeckId),
     SetCrossfader(f32),
 }
@@ -120,11 +136,7 @@ impl ControlSender {
     /// Schedule a command against the published output-rendering frame clock.
     /// Monotonic ordering still applies; urgent input cannot jump ahead of
     /// previously queued future automation on this first single lane.
-    pub fn send_after(
-        &mut self,
-        lead_frames: u64,
-        change: ControlChange,
-    ) -> Result<(), SendError> {
+    pub fn send_after(&mut self, lead_frames: u64, change: ControlChange) -> Result<(), SendError> {
         let at_frame = self.current_frame().saturating_add(lead_frames);
         self.send(Command { at_frame, change })
     }
@@ -178,11 +190,7 @@ impl ControlledEngine {
             .expect("DeckId is always one of four valid deck indices")
     }
 
-    pub fn render_into(
-        &mut self,
-        master: &mut [f32],
-        cue: &mut [f32],
-    ) -> Result<(), EngineError> {
+    pub fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError> {
         <Self as StereoRenderer>::render_into(self, master, cue)
     }
 
@@ -214,10 +222,7 @@ impl ControlledEngine {
 
 fn apply_change(engine: &mut Engine, change: ControlChange) -> Result<(), EngineError> {
     match change {
-        ControlChange::Play(deck) => engine
-            .deck_mut(deck.index())
-            .expect("valid DeckId")
-            .play(),
+        ControlChange::Play(deck) => engine.deck_mut(deck.index()).expect("valid DeckId").play(),
         ControlChange::Pause(deck) => {
             engine.deck_mut(deck.index()).expect("valid DeckId").pause();
             Ok(())
@@ -261,11 +266,7 @@ fn apply_change(engine: &mut Engine, change: ControlChange) -> Result<(), Engine
 }
 
 impl StereoRenderer for ControlledEngine {
-    fn render_into(
-        &mut self,
-        master: &mut [f32],
-        cue: &mut [f32],
-    ) -> Result<(), EngineError> {
+    fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError> {
         if master.len() != cue.len() || !master.len().is_multiple_of(2) {
             return Err(EngineError::InvalidOutputBuffers);
         }
@@ -296,7 +297,8 @@ impl StereoRenderer for ControlledEngine {
 
             let start = processed * 2;
             let end = (processed + run) * 2;
-            self.engine.render_into(&mut master[start..end], &mut cue[start..end])?;
+            self.engine
+                .render_into(&mut master[start..end], &mut cue[start..end])?;
             self.frame = self.frame.saturating_add(run as u64);
             self.published_frame.store(self.frame, Ordering::Release);
             processed += run;

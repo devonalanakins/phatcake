@@ -276,7 +276,12 @@ impl Engine {
         let left_bus = (0.5 * (1.0 - self.crossfader)).sqrt();
         let right_bus = (0.5 * (1.0 + self.crossfader)).sqrt();
 
-        for (master_frame, cue_frame) in master.as_chunks_mut::<2>().0.iter_mut().zip(cue.as_chunks_mut::<2>().0.iter_mut()) {
+        for (master_frame, cue_frame) in master
+            .as_chunks_mut::<2>()
+            .0
+            .iter_mut()
+            .zip(cue.as_chunks_mut::<2>().0.iter_mut())
+        {
             let mut master_left = 0.0_f32;
             let mut master_right = 0.0_f32;
             let mut cue_left = 0.0_f32;

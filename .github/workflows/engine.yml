@@ -12,17 +12,23 @@ permissions:
 
 jobs:
   rust:
-    name: Format, lint, and test (Rust)
+    name: Format, lint, build and test (Rust)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install native ALSA headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev pkg-config
       - name: Install stable Rust
         run: rustup toolchain install stable --profile minimal --component rustfmt --component clippy
       - name: Check formatting
         run: cargo +stable fmt --all -- --check
       - name: Clippy
         run: cargo +stable clippy --workspace --all-targets -- -D warnings
+      - name: Build
+        run: cargo +stable build --workspace
       - name: Tests
         run: cargo +stable test --workspace --all-targets

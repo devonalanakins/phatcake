@@ -8,3 +8,4 @@ publish = false
 [dependencies]
 cpal = { version = "=0.18.2" }
 phatcake-engine = { path = "../engine" }
+phatcake-control = { path = "../control" }

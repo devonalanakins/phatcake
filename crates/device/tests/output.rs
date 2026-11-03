@@ -1,3 +1,4 @@
+use phatcake_control::{control_channel, Command, ControlChange, DeckId};
 use phatcake_device::{prepare_demo_engine, OutputError, OutputScratch};
 use phatcake_engine::{Engine, StereoFrame};
 
@@ -109,4 +110,31 @@ fn prepared_four_deck_mix_is_non_silent() {
 #[test]
 fn invalid_sample_rate_does_not_allocate_test_sources() {
     assert!(prepare_demo_engine(0).is_err());
+}
+
+#[test]
+fn device_adapter_applies_timed_control_to_interleaved_audio() {
+    let engine = constant_engine(0.25, true);
+    let (mut sender, mut controlled) = control_channel(engine);
+    sender
+        .send(Command {
+            at_frame: 3,
+            change: ControlChange::SetGain {
+                deck: DeckId::A,
+                gain: 0.0,
+            },
+        })
+        .unwrap();
+
+    let mut scratch = OutputScratch::new();
+    let mut data = [0.0; 20];
+    scratch.render(&mut controlled, &mut data, 2).unwrap();
+
+    for (frame_index, frame) in data.as_chunks::<2>().0.iter().enumerate() {
+        let expected = if frame_index < 3 { 0.25 } else { 0.0 };
+        close(frame[0], expected);
+        close(frame[1], -expected);
+    }
+    assert_eq!(controlled.stats().applied, 1);
+    assert_eq!(controlled.stats().late, 0);
 }

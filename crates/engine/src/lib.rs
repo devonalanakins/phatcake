@@ -310,3 +310,15 @@ impl Engine {
         Ok(())
     }
 }
+
+/// A pull-style stereo output processor usable by the device adapter.
+/// Implementations must not allocate, lock, or perform I/O in the render path.
+pub trait StereoRenderer {
+    fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError>;
+}
+
+impl StereoRenderer for Engine {
+    fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError> {
+        Engine::render_into(self, master, cue)
+    }
+}

@@ -8,6 +8,7 @@ use std::time::Duration;
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{SampleFormat, StreamConfig};
+use phatcake_control::{control_channel, Command, ControlChange, DeckId};
 use phatcake_device::{prepare_demo_engine, OutputScratch};
 
 #[derive(Default)]
@@ -61,8 +62,30 @@ fn run() -> Result<(), Box<dyn Error>> {
     }
 
     let config: StreamConfig = supported.into();
-    let mut engine = prepare_demo_engine(sample_rate)
+    let engine = prepare_demo_engine(sample_rate)
         .map_err(|error| format!("Cannot prepare synthetic audio: {error:?}"))?;
+    let (mut control_sender, mut controlled_engine) = control_channel(engine);
+
+    // Demonstrate a deterministic gain change at a sample boundary, without
+    // manipulating shared Engine state from the device callback's caller.
+    control_sender
+        .send(Command {
+            at_frame: sample_rate as u64,
+            change: ControlChange::SetGain {
+                deck: DeckId::A,
+                gain: 0.0,
+            },
+        })
+        .map_err(|error| format!("Cannot schedule mute: {error:?}"))?;
+    control_sender
+        .send(Command {
+            at_frame: (sample_rate as u64) * 2,
+            change: ControlChange::SetGain {
+                deck: DeckId::A,
+                gain: 1.0,
+            },
+        })
+        .map_err(|error| format!("Cannot schedule unmute: {error:?}"))?;
     let mut scratch = OutputScratch::new();
 
     let diagnostics = Arc::new(Diagnostics::default());
@@ -72,7 +95,10 @@ fn run() -> Result<(), Box<dyn Error>> {
     let stream = device.build_output_stream(
         config,
         move |samples: &mut [f32], _: &cpal::OutputCallbackInfo| {
-            if scratch.render(&mut engine, samples, channels).is_err() {
+            if scratch
+                .render(&mut controlled_engine, samples, channels)
+                .is_err()
+            {
                 callback_metrics
                     .render_errors
                     .fetch_add(1, Ordering::Relaxed);
@@ -91,7 +117,7 @@ fn run() -> Result<(), Box<dyn Error>> {
         None,
     )?;
 
-    println!("Playing four quiet, original synthetic tones.");
+    println!("Playing four quiet, original synthetic tones with sample-timed deck A gain changes.");
     if channels >= 4 {
         println!("Outputs 1/2: stereo master; 3/4: stereo cue.");
     } else {
@@ -101,6 +127,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     stream.play()?;
     std::thread::sleep(duration.expect("valid demo mode"));
     drop(stream);
+    drop(control_sender);
 
     let callbacks = diagnostics.callbacks.load(Ordering::Relaxed);
     let frames = diagnostics.frames.load(Ordering::Relaxed);

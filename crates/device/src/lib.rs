@@ -3,7 +3,7 @@
 
 #![forbid(unsafe_code)]
 
-use phatcake_engine::{Engine, EngineError, StereoFrame};
+use phatcake_engine::{Engine, EngineError, StereoFrame, StereoRenderer};
 
 const BLOCK_FRAMES: usize = 128;
 const STEREO_SAMPLES_PER_BLOCK: usize = BLOCK_FRAMES * 2;
@@ -42,7 +42,7 @@ impl OutputScratch {
     /// The engine and scratch buffers must never be accessed concurrently.
     pub fn render(
         &mut self,
-        engine: &mut Engine,
+        renderer: &mut impl StereoRenderer,
         output: &mut [f32],
         channels: usize,
     ) -> Result<(), OutputError> {
@@ -59,7 +59,7 @@ impl OutputScratch {
             let frames = block.len() / channels;
             let stereo_samples = frames * 2;
 
-            if let Err(error) = engine.render_into(
+            if let Err(error) = renderer.render_into(
                 &mut self.master[..stereo_samples],
                 &mut self.cue[..stereo_samples],
             ) {

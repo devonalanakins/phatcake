@@ -1,11 +1,18 @@
 use phatcake_engine::{CrossfaderSide, Engine, EngineError, StereoFrame};
 
 fn pcm(values: &[f32]) -> Vec<StereoFrame> {
-    values.iter().copied().map(|value| StereoFrame::new(value, value)).collect()
+    values
+        .iter()
+        .copied()
+        .map(|value| StereoFrame::new(value, value))
+        .collect()
 }
 
 fn near(actual: f32, expected: f32) {
-    assert!((actual - expected).abs() < 0.00001, "expected {expected}, got {actual}");
+    assert!(
+        (actual - expected).abs() < 0.00001,
+        "expected {expected}, got {actual}"
+    );
 }
 
 #[test]
@@ -105,13 +112,22 @@ fn invalid_controls_and_output_buffers_are_rejected() {
     let mut engine = Engine::new(48_000).unwrap();
     assert!(engine.deck(4).is_none());
     assert!(engine.deck_mut(4).is_none());
-    assert!(matches!(Engine::new(0), Err(EngineError::InvalidSampleRate)));
-    assert_eq!(engine.deck_mut(0).unwrap().play(), Err(EngineError::NoTrackLoaded));
+    assert!(matches!(
+        Engine::new(0),
+        Err(EngineError::InvalidSampleRate)
+    ));
+    assert_eq!(
+        engine.deck_mut(0).unwrap().play(),
+        Err(EngineError::NoTrackLoaded)
+    );
     let deck = engine.deck_mut(0).unwrap();
     assert_eq!(deck.load_pcm(pcm(&[])), Err(EngineError::InvalidTrack));
     deck.load_pcm(pcm(&[0.25; 4])).unwrap();
     assert_eq!(deck.set_gain(f32::NAN), Err(EngineError::InvalidGain));
-    assert_eq!(deck.set_playback_rate(f64::INFINITY), Err(EngineError::InvalidPlaybackRate));
+    assert_eq!(
+        deck.set_playback_rate(f64::INFINITY),
+        Err(EngineError::InvalidPlaybackRate)
+    );
     assert_eq!(deck.set_loop(3, 5), Err(EngineError::InvalidLoop));
     assert_eq!(deck.seek(9.0), Err(EngineError::InvalidPosition));
     deck.set_crossfader_side(CrossfaderSide::Bypass);
@@ -122,6 +138,9 @@ fn invalid_controls_and_output_buffers_are_rejected() {
     engine.render_into(&mut master, &mut cue).unwrap();
     near(master[0], 0.25);
     let mut bad = [9.0; 3];
-    assert_eq!(engine.render_into(&mut bad, &mut cue), Err(EngineError::InvalidOutputBuffers));
+    assert_eq!(
+        engine.render_into(&mut bad, &mut cue),
+        Err(EngineError::InvalidOutputBuffers)
+    );
     assert_eq!(bad, [9.0; 3]);
 }

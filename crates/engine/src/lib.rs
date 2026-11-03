@@ -14,7 +14,10 @@ pub struct StereoFrame {
 }
 
 impl StereoFrame {
-    pub const SILENCE: Self = Self { left: 0.0, right: 0.0 };
+    pub const SILENCE: Self = Self {
+        left: 0.0,
+        right: 0.0,
+    };
 
     pub const fn new(left: f32, right: f32) -> Self {
         Self { left, right }
@@ -72,7 +75,9 @@ impl Deck {
     /// This can allocate; do not call it from a real-time audio callback.
     pub fn load_pcm(&mut self, pcm: Vec<StereoFrame>) -> Result<(), EngineError> {
         if pcm.is_empty()
-            || pcm.iter().any(|frame| !frame.left.is_finite() || !frame.right.is_finite())
+            || pcm
+                .iter()
+                .any(|frame| !frame.left.is_finite() || !frame.right.is_finite())
         {
             return Err(EngineError::InvalidTrack);
         }
@@ -263,11 +268,7 @@ impl Engine {
     /// Fill preallocated interleaved stereo buffers; both must have equal,
     /// even lengths. A safety clamp prevents out-of-range output, but is NOT
     /// a professional-grade limiter.
-    pub fn render_into(
-        &mut self,
-        master: &mut [f32],
-        cue: &mut [f32],
-    ) -> Result<(), EngineError> {
+    pub fn render_into(&mut self, master: &mut [f32], cue: &mut [f32]) -> Result<(), EngineError> {
         if master.len() != cue.len() || master.len() % 2 != 0 {
             return Err(EngineError::InvalidOutputBuffers);
         }

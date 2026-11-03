@@ -25,7 +25,7 @@ fn stereo_output_routes_only_master() {
     let mut scratch = OutputScratch::new();
     let mut data = [9.0; 6];
     scratch.render(&mut engine, &mut data, 2).unwrap();
-    for frame in data.chunks_exact(2) {
+    for frame in data.as_chunks::<2>().0 {
         close(frame[0], 0.25);
         close(frame[1], -0.25);
     }
@@ -38,7 +38,7 @@ fn four_channel_device_routes_independent_cue() {
     let mut scratch = OutputScratch::new();
     let mut data = [9.0; 8];
     scratch.render(&mut engine, &mut data, 4).unwrap();
-    for frame in data.chunks_exact(4) {
+    for frame in data.as_chunks::<4>().0 {
         close(frame[0], 0.125);
         close(frame[1], -0.125);
         close(frame[2], 0.25);
@@ -52,7 +52,7 @@ fn extra_device_channels_are_silent() {
     let mut scratch = OutputScratch::new();
     let mut data = [9.0; 12];
     scratch.render(&mut engine, &mut data, 6).unwrap();
-    for frame in data.chunks_exact(6) {
+    for frame in data.as_chunks::<6>().0 {
         close(frame[0], 0.25);
         close(frame[1], -0.25);
         close(frame[2], 0.25);

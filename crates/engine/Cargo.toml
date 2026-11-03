@@ -1,0 +1,8 @@
+[package]
+name = "phatcake-engine"
+version = "0.1.0"
+edition = "2021"
+description = "Offline four-deck DSP foundation for Phatcake"
+publish = false
+
+[dependencies]

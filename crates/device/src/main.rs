@@ -52,10 +52,9 @@ fn run() -> Result<(), Box<dyn Error>> {
     }
 
     if format != SampleFormat::F32 {
-        return Err(format!(
-            "The first output demo requires f32 audio; the default is {format:?}"
-        )
-        .into());
+        return Err(
+            format!("The first output demo requires f32 audio; the default is {format:?}").into(),
+        );
     }
     if channels < 2 {
         return Err("The first output demo requires at least two channels".into());

@@ -92,8 +92,7 @@ pub fn prepare_demo_engine(sample_rate: u32) -> Result<Engine, EngineError> {
     for (index, frequency) in frequencies.iter().copied().enumerate() {
         let pcm: Vec<StereoFrame> = (0..sample_rate)
             .map(|sample| {
-                let phase =
-                    std::f32::consts::TAU * frequency * sample as f32 / sample_rate as f32;
+                let phase = std::f32::consts::TAU * frequency * sample as f32 / sample_rate as f32;
                 let value = phase.sin() * 0.06;
                 StereoFrame::new(value, value)
             })

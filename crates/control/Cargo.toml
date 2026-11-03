@@ -1,0 +1,10 @@
+[package]
+name = "phatcake-control"
+version = "0.1.0"
+edition = "2021"
+description = "Bounded sample-time control scheduler for Phatcake"
+publish = false
+
+[dependencies]
+phatcake-engine = { path = "../engine" }
+rtrb = "=0.4.1"

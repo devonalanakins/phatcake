@@ -4,7 +4,7 @@
 
 Phatcake is a developing, touchscreen-first, professional music-performance and music-production platform. Its core promise is four simultaneous digital DJ decks without required physical turntables or MIDI controllers, with a future unified DAW.
 
-**Status: experimental engineering previews only, NOT a playable touchscreen DJ application.** There is no audio-device I/O, touchscreen interface, file decoder, real-time event transport, pitch-preserving stretching, or production DAW yet.
+**Status: experimental engineering previews only, NOT a playable touchscreen DJ application.** A native f32 output proof and bounded sample-time control scheduler exist on stacked draft branches. There is no touchscreen interface, file decoder, measured latency, professional scratching, or production DAW yet.
 
 ## Established requirements
 
@@ -42,3 +42,12 @@ Commands:
     cargo run -p phatcake-device -- --demo 5
 
 The first output adapter supports f32 default device configurations only. See docs/NATIVE_AUDIO.md for safety, tests and limitations. This milestone is based on the still-unmerged four-deck engine PR.
+
+
+## Sample-time control scheduling (third stacked draft)
+
+The `phatcake-control` crate adds typed per-deck controls over a fixed-capacity wait-free SPSC queue, timestamped in absolute audio-rendered frames. Already-enqueued events can take effect on exact sample boundaries. Invalid controls are rejected and counted, full queues apply backpressure, and late commands are counted rather than silently discarded. `phatcake-device` now accepts either the original engine or its controlled wrapper without any render-path heap allocations.
+
+The native synthetic demo has a scheduled gain change at one second and restoration at two seconds, with no touchscreen UI. It is *not* a measured low-latency scratch implementation.
+
+See [control scheduling](docs/CONTROL.md) and [native output](docs/NATIVE_AUDIO.md). This PR is stacked on the still-unmerged native-output proof.

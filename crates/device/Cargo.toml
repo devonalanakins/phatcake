@@ -1,0 +1,10 @@
+[package]
+name = "phatcake-device"
+version = "0.1.0"
+edition = "2021"
+description = "Experimental native audio output for Phatcake"
+publish = false
+
+[dependencies]
+cpal = { version = "=0.18.2" }
+phatcake-engine = { path = "../engine" }

@@ -4,7 +4,7 @@
 
 Phatcake is a developing, touchscreen-first, professional music-performance and music-production platform. Its core promise is four simultaneous digital DJ decks without required physical turntables or MIDI controllers, with a future unified DAW.
 
-**Status: experimental offline DSP source only. This is NOT a playable DJ application.** There is no audio-device I/O, touchscreen interface, file decoder, real-time event transport, pitch-preserving stretching, or production DAW yet.
+**Status: experimental engineering previews only, NOT a playable touchscreen DJ application.** There is no audio-device I/O, touchscreen interface, file decoder, real-time event transport, pitch-preserving stretching, or production DAW yet.
 
 ## Established requirements
 
@@ -31,3 +31,14 @@ See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md
 ## Licensing
 
 **License selection is pending owner approval.** The repository is public, but its content is not yet offered under an OSI-approved license. External contributions and redistribution should wait until a suitable license is selected.
+
+## Native-output smoke test (stacked draft milestone)
+
+The experimental device crate can route the four-deck synthetic master mix to the computer's default stereo output, with headphone cue on channels 3/4 when that device's default configuration has at least four channels. It is not a DJ app or measured low-latency system.
+
+Commands:
+
+    cargo run -p phatcake-device -- --probe
+    cargo run -p phatcake-device -- --demo 5
+
+The first output adapter supports f32 default device configurations only. See docs/NATIVE_AUDIO.md for safety, tests and limitations. This milestone is based on the still-unmerged four-deck engine PR.

@@ -2,7 +2,7 @@
 
 **Touch the sound.**
 
-Squelch is a developing, touchscreen-first, professional music-performance and music-production platform. Its core promise is four simultaneous digital DJ decks without required physical turntables or MIDI controllers, with a future unified DAW.
+Squelch is a developing, touchscreen-first, professional music-performance and music-production platform. Its ambition is a unified professional DAW and live-performance environment in which four or more digital decks, instruments, recording, composition, mixing, mastering and stage control share one session. Dedicated DJ controllers and other creative control surfaces are optional, but physical audio input/output hardware remains necessary for acoustic capture and reproduction.
 
 **Status: experimental engineering previews only, NOT a playable touchscreen DJ application.** A native f32 output proof and bounded sample-time control scheduler exist on stacked draft branches. There is no touchscreen interface, file decoder, measured latency, professional scratching, or production DAW yet.
 
@@ -26,7 +26,9 @@ cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace --all-targets
 ```
 
-See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), and [contributing](CONTRIBUTING.md).
+See [unified product vision](docs/VISION.md), [complete UX architecture](docs/EXPERIENCE_SYSTEM.md), [visual design system](docs/DESIGN_SYSTEM.md), [interactive interface concept](design/squelch-ui-prototype.html), [full engineering blueprint](docs/ENGINEERING_BLUEPRINT.md), [audio architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), [touch cockpit design](docs/INTERFACE.md), and [contributing](CONTRIBUTING.md).
+
+The interactive interface concept is a **silent, offline, standalone HTML design preview**, not an audio-connected application. Open it locally to inspect the proposed workspace transitions, responsive layout and simulated control states.
 
 ## Licensing
 

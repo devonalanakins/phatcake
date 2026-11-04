@@ -12,8 +12,8 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
-use squelch_engine::{Deck, Engine, EngineError, StereoRenderer};
 use rtrb::{Consumer, Producer, PushError, RingBuffer};
+use squelch_engine::{Deck, Engine, EngineError, StereoRenderer};
 
 /// Maximum events placed into the ring before the sender gets backpressure.
 pub const COMMAND_CAPACITY: usize = 1024;

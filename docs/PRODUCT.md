@@ -10,9 +10,13 @@ Four independently operated decks; load, transport, precise seek, pitch/key, hot
 
 Direct scratch-zone tracking with no forced quantization; user-configurable slip, release, inertia and performance locks; reliable multi-finger input, safe loading, accessible controls and fallback layouts. Graphics must never stall audio.
 
-## Production (after DJ proof)
+## Unified DAW and performance product charter (locked vision; staged implementation)
 
-Live loop capture, sampler, drum pads, clip launcher, MIDI, sequencer, synthesizers, automation, multitrack recording, arrangement, export and third-party plug-in interoperability on a shared session/transport model.
+Squelch is not a standalone DJ app with a loosely attached future DAW. The long-term goal is one complete professional environment for DJ performance, sound design, instruments, multitrack recording, composition, mixing, mastering and live performance. All domains must share a future canonical audio/session/automation graph and support performance-to-arrangement and arrangement-to-deck workflows.
+
+**Implementation order is still gated by validated four-deck DJ audio.** Designing the unified DAW foundation now avoids a later rewrite, but does not imply production features already exist. Complete product scope, physical hardware limits, experience principles, acceptance measures and staged delivery are defined in [Squelch unified vision](VISION.md).
+
+Live loop capture, sampler, drum pads, clip launcher, MIDI, sequencer, synthesizers, automation, multitrack recording, arrangement, export and third-party plug-in interoperability remain prospective requirements.
 
 ## Measurable engineering targets — not achieved
 
@@ -28,4 +32,4 @@ Live loop capture, sampler, drum pads, clip launcher, MIDI, sequencer, synthesiz
 2. Native audio: device I/O, dropout diagnostics and physical latency measurements.
 3. Scratch UX: direct-touch precision, safe multitouch, comparison with DVS/controller benchmarks.
 4. Professional live workflows: track library, recovery, session recording, effects and usability validation.
-5. DAW: music production features added only after credible four-deck performance.
+5. DAW: design a shared session/transport/audio graph now; implement and release recording, composition, instrument, mixing, mastering and plugin modules incrementally after credible DJ performance milestones.

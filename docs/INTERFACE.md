@@ -2,6 +2,8 @@
 
 **Status:** Design proposal only. The current Rust code contains offline four-deck DSP, an experimental native output adapter and a bounded scheduled control queue. There is no playable touchscreen UI, measured touch-to-sound latency or full scratch engine.
 
+**Unified experience:** This cockpit is the **Perform** surface of the longer-term Squelch DAW, not a separate DJ product. Proposed Produce, Shape, Mix and Master surfaces operate on one persistent session. See [unified product vision](VISION.md).
+
 ## Performance architecture
 
 ```text
@@ -53,3 +55,26 @@ Desktop and landscape tablets should show all four deck identities and play stat
 6. Gate release on licensing, rights for music files, driver matrix, stability, packaging and independent review.
 
 Audio callbacks must remain independent of rendering, networking and storage. DAW production, recording, arrangement and cloud workflows are deferred directions, not promises.
+
+## Context-adaptive studio canvas (long-term design proposal)
+
+The four-deck matrix is a persistent Perform cockpit, but Squelch must also support a full DAW. A shared session should allow a deck to become an editable clip, a live mix to become multitrack session content, and a composed track to be loaded into a deck without exporting between incompatible projects. These transitions are **not built**.
+
+| Focus surface | Primary task | Persistent context |
+| --- | --- | --- |
+| **Perform** | Four-deck scratching, cues, loops, scenes and mixer | Master/cue state, performance lock, transport |
+| **Produce** | Record/edit audio and MIDI, arrangement, clips, automation | Current tracks, tempo map, shared clip/deck sources |
+| **Shape** | Synths, samplers, drums, modular signal graph, FX | Current signal chain, modulation and audition state |
+| **Mix** | Buses, sends, dynamics, EQ, automation, channel routing | Live output state, safe gains and headroom |
+| **Master** | Loudness, final limiting, versions and export | Source reference, delivery target and measured meters |
+
+### Interaction invariants
+
+1. Any mode transition preserves audible output, cue/master isolation, transport and undo/snapshot history.
+2. During a locked live set, the locations of critical play/stop, cue and gain controls must not shift automatically.
+3. Gesture controls include fine/coarse adjustment, explicit capture regions, calibration, keyboard alternative and reduced motion.
+4. Every fader and knob displays real values, not only attractive animations; dangerous edits offer explicit limits and feedback.
+5. The UI can be visually dramatic but must remain performant on declared hardware with a fully usable static/low-power mode.
+6. Creative tools or AI assistance never block real-time processing or silently overwrite recorded work.
+
+**Design acceptance:** Validate both an expert four-deck DJ workflow and a complete record→edit→mix→export song workflow. The second remains a future release gate; a cinematic mockup alone does not satisfy it.

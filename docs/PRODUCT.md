@@ -1,4 +1,4 @@
-# Phatcake product requirements
+# Squelch product requirements
 
 Status: requirements and proposals, not shipped features.
 

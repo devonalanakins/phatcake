@@ -1,4 +1,4 @@
-//! Phatcake's deterministic, offline, four-deck audio foundation.
+//! Squelch's deterministic, offline, four-deck audio foundation.
 //!
 //! This is NOT a hardware-backed low-latency DJ app. A single caller owns the
 //! engine. Track preparation and all control changes occur outside rendering.

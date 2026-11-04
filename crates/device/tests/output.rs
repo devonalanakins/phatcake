@@ -1,6 +1,6 @@
-use phatcake_control::{control_channel, Command, ControlChange, DeckId};
-use phatcake_device::{prepare_demo_engine, OutputError, OutputScratch};
-use phatcake_engine::{Engine, StereoFrame};
+use squelch_control::{control_channel, Command, ControlChange, DeckId};
+use squelch_device::{prepare_demo_engine, OutputError, OutputScratch};
+use squelch_engine::{Engine, StereoFrame};
 
 fn close(actual: f32, expected: f32) {
     assert!(

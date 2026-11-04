@@ -1,8 +1,8 @@
 [package]
-name = "phatcake-engine"
+name = "squelch-engine"
 version = "0.1.0"
 edition = "2021"
-description = "Offline four-deck DSP foundation for Phatcake"
+description = "Offline four-deck DSP foundation for Squelch"
 publish = false
 
 [dependencies]

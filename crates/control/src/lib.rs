@@ -1,4 +1,4 @@
-//! Sample-time control delivery for Phatcake's four-deck PCM engine.
+//! Sample-time control delivery for Squelch's four-deck PCM engine.
 //!
 //! A bounded wait-free SPSC ring is allocated before the audio stream starts.
 //! Only one producer sends messages. Only one audio thread consumes them.
@@ -12,7 +12,7 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
-use phatcake_engine::{Deck, Engine, EngineError, StereoRenderer};
+use squelch_engine::{Deck, Engine, EngineError, StereoRenderer};
 use rtrb::{Consumer, Producer, PushError, RingBuffer};
 
 /// Maximum events placed into the ring before the sender gets backpressure.

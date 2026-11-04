@@ -2,7 +2,7 @@
 
 Status: experimental native-output candidate. CI success does not establish actual sound output, device compatibility or end-to-end latency.
 
-The independent Phatcake offline DSP engine remains dependency-free. A separate phatcake-device crate uses pinned RustAudio CPAL 0.18.2 (Apache-2.0) to connect to the operating system's default output device.
+The independent Squelch offline DSP engine remains dependency-free. A separate squelch-device crate uses pinned RustAudio CPAL 0.18.2 (Apache-2.0) to connect to the operating system's default output device.
 
 ## Behavior
 
@@ -16,8 +16,8 @@ The independent Phatcake offline DSP engine remains dependency-free. A separate 
 
 Run with stable Rust. Linux requires ALSA development headers (libasound2-dev).
 
-    cargo run -p phatcake-device -- --probe
-    cargo run -p phatcake-device -- --demo 5
+    cargo run -p squelch-device -- --probe
+    cargo run -p squelch-device -- --demo 5
     cargo test --workspace --all-targets
 
 Probe inspects the device without producing sound. Demo runs for 1 to 30 seconds and emits synthetic tones, not commercial music. Set speaker/headphone volume low before starting.

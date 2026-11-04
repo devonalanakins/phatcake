@@ -10,7 +10,7 @@
 - Commands may be queued only in nondecreasing frame order. Equal-frame commands retain FIFO order; out-of-order calls are rejected. A future timestamp already queued can block an urgent command in this first *single-lane* prototype. A priority lane for immediate scratch gestures must be designed before claiming professional responsiveness.
 - Rendering polls the command queue at most every 32 output frames and splits work at known future command boundaries. Events already available before their frame are applied before rendering that exact frame.
 - There is a finite 64-event budget per render call. Heavy event floods may delay controls; deferred and late metrics make this visible.
-- The audio thread never blocks on the UI or graphics thread. Audio buffers are owned by the callback and generated without per-callback allocation or locking in Phatcake's source.
+- The audio thread never blocks on the UI or graphics thread. Audio buffers are owned by the callback and generated without per-callback allocation or locking in Squelch's source.
 - The atomic published clock allows the producer to read the latest rendered frame count. It is **not** an audio hardware timebase, so its use alone cannot establish physical input-to-sound latency.
 
 ## Supported changes

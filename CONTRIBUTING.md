@@ -1,6 +1,6 @@
-# Contributing to Phatcake
+# Contributing to Squelch
 
-Phatcake is currently pre-alpha. The open-source license is **not yet selected**, so external code contributions should wait until the license is approved and published.
+Squelch is currently pre-alpha. The open-source license is **not yet selected**, so external code contributions should wait until the license is approved and published.
 
 Maintainer workflow:
 

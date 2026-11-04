@@ -1,7 +1,7 @@
-use phatcake_control::{
+use squelch_control::{
     control_channel, Command, ControlChange, DeckId, SendError, COMMAND_CAPACITY,
 };
-use phatcake_engine::{Engine, StereoFrame};
+use squelch_engine::{Engine, StereoFrame};
 
 fn engine() -> Engine {
     let mut engine = Engine::new(48_000).unwrap();
@@ -13,7 +13,7 @@ fn engine() -> Engine {
     engine
 }
 
-fn render_samples(player: &mut phatcake_control::ControlledEngine, frames: usize) -> Vec<f32> {
+fn render_samples(player: &mut squelch_control::ControlledEngine, frames: usize) -> Vec<f32> {
     let mut master = vec![0.0_f32; frames * 2];
     let mut cue = vec![0.0_f32; frames * 2];
     player.render_into(&mut master, &mut cue).unwrap();
@@ -238,7 +238,7 @@ fn invalid_output_buffers_do_not_consume_commands() {
     let mut cue = [8.0; 2];
     assert_eq!(
         player.render_into(&mut master, &mut cue),
-        Err(phatcake_engine::EngineError::InvalidOutputBuffers)
+        Err(squelch_engine::EngineError::InvalidOutputBuffers)
     );
     assert_eq!(master, [7.0; 3]);
     assert_eq!(cue, [8.0; 2]);

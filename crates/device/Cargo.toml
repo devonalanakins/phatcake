@@ -1,11 +1,11 @@
 [package]
-name = "phatcake-device"
+name = "squelch-device"
 version = "0.1.0"
 edition = "2021"
-description = "Experimental native audio output for Phatcake"
+description = "Experimental native audio output for Squelch"
 publish = false
 
 [dependencies]
 cpal = { version = "=0.18.2" }
-phatcake-engine = { path = "../engine" }
-phatcake-control = { path = "../control" }
+squelch-engine = { path = "../engine" }
+squelch-control = { path = "../control" }

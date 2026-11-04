@@ -12,8 +12,8 @@ permissions:
 jobs:
   concept:
     name: Verify independent UI concept
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - name: Checkout source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -23,3 +23,24 @@ jobs:
           node-version: 22
       - name: Validate prototype structure, JavaScript and honest state
         run: node --test tests/design-prototype.test.mjs
+      - name: Install Python for browser acceptance (PR only)
+        if: github.event_name == 'pull_request'
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install pinned Playwright and browser runtimes (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps chromium webkit
+      - name: Run responsive Chromium and WebKit interaction review (PR only)
+        if: github.event_name == 'pull_request'
+        run: python3 tests/design_browser.py
+      - name: Upload rendered concept screenshots (PR only)
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: squelch-design-screenshots
+          path: browser-design-qa/
+          if-no-files-found: ignore
+          retention-days: 7

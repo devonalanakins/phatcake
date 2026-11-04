@@ -26,7 +26,7 @@ cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace --all-targets
 ```
 
-See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), and [contributing](CONTRIBUTING.md).
+See [architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), [touch cockpit design](docs/INTERFACE.md), and [contributing](CONTRIBUTING.md).
 
 ## Licensing
 

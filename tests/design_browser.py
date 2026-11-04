@@ -25,6 +25,12 @@ def verify(browser_type, browser_name, width, height):
         assert page.title() == "Squelch — Unified Studio UI Concept"
         assert page.get_by_text("INTERACTIVE DESIGN CONCEPT · NO AUDIO").is_visible()
         assert page.locator(".deck").count() == 4, (browser_name, width, "four decks")
+        if width <= 850:
+            assert page.locator('.deck.selected .wave').is_visible(), (browser_name, width, "focused deck waveform")
+            assert not page.locator('.deck:not(.selected) .wave').first.is_visible(), (browser_name, width, "compact secondary decks")
+            primary = page.locator('.deck.selected').bounding_box()
+            secondary = page.locator('.deck:not(.selected)').first.bounding_box()
+            assert primary and secondary and primary['y'] < secondary['y'], (browser_name, width, "selected deck first")
         assert page.locator('[data-view="perform"]').is_visible()
         assert page.locator("#notice").is_visible()
 

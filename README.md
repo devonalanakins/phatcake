@@ -26,7 +26,7 @@ cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace --all-targets
 ```
 
-See [unified product vision](docs/VISION.md), [complete UX architecture](docs/EXPERIENCE_SYSTEM.md), [visual design system](docs/DESIGN_SYSTEM.md), [interactive interface concept](design/squelch-ui-prototype.html), [audio architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), [touch cockpit design](docs/INTERFACE.md), and [contributing](CONTRIBUTING.md).
+See [unified product vision](docs/VISION.md), [complete UX architecture](docs/EXPERIENCE_SYSTEM.md), [visual design system](docs/DESIGN_SYSTEM.md), [interactive interface concept](design/squelch-ui-prototype.html), [full engineering blueprint](docs/ENGINEERING_BLUEPRINT.md), [audio architecture](docs/ARCHITECTURE.md), [product requirements](docs/PRODUCT.md), [brand direction](docs/BRAND.md), [touch cockpit design](docs/INTERFACE.md), and [contributing](CONTRIBUTING.md).
 
 The interactive interface concept is a **silent, offline, standalone HTML design preview**, not an audio-connected application. Open it locally to inspect the proposed workspace transitions, responsive layout and simulated control states.
 

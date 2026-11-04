@@ -44,3 +44,11 @@ jobs:
           path: browser-design-qa/
           if-no-files-found: ignore
           retention-days: 7
+      - name: Upload standalone interactive HTML concept (PR only)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: squelch-interactive-concept
+          path: design/squelch-ui-prototype.html
+          if-no-files-found: error
+          retention-days: 7

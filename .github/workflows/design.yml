@@ -1,0 +1,25 @@
+name: Squelch design artifact verification
+
+on:
+  push:
+    branches:
+      - "feat/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  concept:
+    name: Verify independent UI concept
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Validate prototype structure, JavaScript and honest state
+        run: node --test tests/design-prototype.test.mjs

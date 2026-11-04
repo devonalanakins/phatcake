@@ -1,4 +1,4 @@
-use phatcake_engine::{CrossfaderSide, Engine, EngineError, StereoFrame};
+use squelch_engine::{CrossfaderSide, Engine, EngineError, StereoFrame};
 
 fn pcm(values: &[f32]) -> Vec<StereoFrame> {
     values

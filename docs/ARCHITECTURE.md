@@ -4,7 +4,7 @@
 
 - **Touch interface (future):** native multitouch controls and a GPU UI independent of audio scheduling.
 - **Control/event transport (future):** timestamped, bounded, real-time-safe delivery of gestures and control changes to the audio owner.
-- **Audio engine (partial):** `phatcake-engine` renders four independent stereo PCM sources to separate master and headphone cue outputs.
+- **Audio engine (partial):** `squelch-engine` renders four independent stereo PCM sources to separate master and headphone cue outputs.
 - **Background workers (future):** file decoding, sample-rate conversion, beatgrids, stems, waveform preparation, library indexing, persistence and recovery.
 - **Native audio output (future):** device routing, hardware measurement, driver compatibility and recovery.
 
@@ -38,4 +38,4 @@
 
 ## Ownership boundaries
 
-Phatcake is an independent music-software project; do not share private data, billing, deployments or secrets from DevonStation, CristyBreathe, Brandicade or Anevum.
+Squelch is an independent music-software project; do not share private data, billing, deployments or secrets from DevonStation, CristyBreathe, Brandicade or Anevum.

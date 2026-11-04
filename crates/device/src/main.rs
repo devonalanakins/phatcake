@@ -1,5 +1,5 @@
 //! Device-output smoke test, not a touchscreen DJ application.
-//! Usage: phatcake-device --probe | --demo SECONDS
+//! Usage: squelch-device --probe | --demo SECONDS
 
 use std::error::Error;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -8,8 +8,8 @@ use std::time::Duration;
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{SampleFormat, StreamConfig};
-use phatcake_control::{control_channel, Command, ControlChange, DeckId};
-use phatcake_device::{prepare_demo_engine, OutputScratch};
+use squelch_control::{control_channel, Command, ControlChange, DeckId};
+use squelch_device::{prepare_demo_engine, OutputScratch};
 
 #[derive(Default)]
 struct Diagnostics {
@@ -32,7 +32,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             Some(Duration::from_secs(seconds))
         }
         _ => {
-            println!("Usage: phatcake-device --probe | --demo SECONDS (1-30)");
+            println!("Usage: squelch-device --probe | --demo SECONDS (1-30)");
             return Ok(());
         }
     };
@@ -147,7 +147,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
 fn main() {
     if let Err(error) = run() {
-        eprintln!("Phatcake device demo: {error}");
+        eprintln!("Squelch device demo: {error}");
         std::process::exit(1);
     }
 }

@@ -1,9 +1,9 @@
-//! Device-independent interleaving for Phatcake's four-deck audio engine.
+//! Device-independent interleaving for Squelch's four-deck audio engine.
 //! The render method allocates no memory, locks no mutex, and performs no I/O.
 
 #![forbid(unsafe_code)]
 
-use phatcake_engine::{Engine, EngineError, StereoFrame, StereoRenderer};
+use squelch_engine::{Engine, EngineError, StereoFrame, StereoRenderer};
 
 const BLOCK_FRAMES: usize = 128;
 const STEREO_SAMPLES_PER_BLOCK: usize = BLOCK_FRAMES * 2;
